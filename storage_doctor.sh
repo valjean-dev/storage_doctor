@@ -1,7 +1,5 @@
 #!/usr/bin/bash
 
-options="--help:--audit:--fix:--find:--simulate:--expand-check"
-
 error_no_args()
 {
     echo "$0: no arguments for the script" # name script file
