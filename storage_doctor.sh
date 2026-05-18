@@ -120,6 +120,7 @@ show_top_10_hard_dir()
 }
 
 #-----------------------------
+# search_big_files
 
 search_big_files()
 {
@@ -132,6 +133,9 @@ search_big_files()
     echo $border
 }
 
+#-----------------------------
+# search_del_open_files
+
 search_del_open_files()
 {
     echo $border
@@ -139,7 +143,7 @@ search_del_open_files()
     echo $border
 }
 
-
+#-----------------------------
 
 audit()
 {
@@ -177,6 +181,56 @@ audit()
 }
 
 #-----------------------------
+# Fix functions
+#-----------------------------
+# fix
+fix()
+{
+    while true; do
+    echo "Fix function: "
+    echo "1 - Cleaning temporary/old files via find"
+    echo "2 - Handling the deleted-open case (show PID/FD and freeing up space)"
+    echo "3 - Exit"
+    echo -n "Select number of function: " # input value
+    read func_var # get value
+    clear
+    case $func_var in
+        1)
+            clean_tmp_old_files
+            ;;
+        2)
+            handl_del_open_files
+            ;;
+        3)
+            exit 0
+            ;;
+        *)
+            error_unrec_numb_function "$func_var"
+            ;;
+    esac
+    done
+}
+
+#-----------------------------
+# cleaning temporary/old files
+clean_tmp_old_files()
+{
+    echo $border
+    echo "cleaning tmp/old files"
+    echo $border
+}
+
+#-----------------------------
+#handling the deleted-open case
+handl_del_open_files()
+{
+    echo $border
+    echo "handling the deleted-open case"
+    echo $border
+}
+
+
+#-----------------------------
 # Main block
 
 if [[ $# -eq 0 ]]; then # check count args
@@ -193,7 +247,7 @@ else
                 audit
                 ;;
             --fix)
-                echo "fix info"
+                fix
                 ;;
             --find)
                 echo "find info"
