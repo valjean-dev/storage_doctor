@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-
+border="===================="
 #-----------------------------
 # Error exception functions
 
@@ -49,11 +49,45 @@ help_info()
 
 show_disk_info()
 {
-    echo "show_disk_info"
-    #df -h
-    #df -i
-    #lsblk
-    #findmnt
+    while true; do
+    echo "Functions show disk info: "
+    echo "1 - 'df -h'"
+    echo "2 - 'df -i'"
+    echo "3 - 'lsblk'"
+    echo "4 - 'findmnt'"
+    echo "5 - Exit"
+    echo -n "Select numb command: "
+    read command
+    clear
+    case $command in
+        1)
+            echo $border
+            df -h
+            echo $border
+            ;;
+        2)
+            echo $border
+            df -i
+            echo $border
+            ;;
+        3)
+            echo $border
+            lsblk
+            echo $border
+            ;;
+        4)
+            echo $border
+            findmnt
+            echo $border
+            ;;
+        5)
+            break
+            ;;
+        *)
+            error_unrec_numb_function "$func_var"
+            ;;
+    esac
+    done
 }
 
 show_top_10_hard_dir()
@@ -73,30 +107,37 @@ search_del_open_files()
 
 audit()
 {
-   echo "Audit function: "
-   echo "1 - Show disk info (df -h, df -i, lsblk, findmnt)"
-   echo "2 - Show top 10 big dir"
-   echo "3 - Search big files"
-   echo "4 - Search delete-open files"
-   echo -n "Select number of function: " # input value
-   read func_var # get value
-   case $func_var in
-            1)
-                show_disk_info
-                ;;
-            2)
-                show_top_10_hard_dir
-                ;;
-            3)
-                search_big_files
-                ;;
-            4)
-                search_del_open_files
-                ;;
-            *)
-                error_unrec_numb_function "$func_var"
-                ;;
-        esac
+    while true; do
+    echo "Audit function: "
+    echo "1 - Show disk info (df -h, df -i, lsblk, findmnt)"
+    echo "2 - Show top 10 big dir"
+    echo "3 - Search big files"
+    echo "4 - Search delete-open files"
+    echo "5 - Exit"
+    echo -n "Select number of function: " # input value
+    read func_var # get value
+    clear
+    case $func_var in
+        1)
+            show_disk_info
+            ;;
+        2)
+            show_top_10_hard_dir
+            ;;
+        3)
+            search_big_files
+            ;;
+        4)
+            search_del_open_files
+            ;;
+        5)
+            exit 0
+            ;;
+        *)
+            error_unrec_numb_function "$func_var"
+            ;;
+    esac
+    done
 }
 
 #-----------------------------
