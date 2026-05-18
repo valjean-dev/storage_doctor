@@ -6,25 +6,33 @@ border="===================="
 
 error_no_args()
 {
+    echo $border
     echo "$0: no arguments for the script" # name script file
     echo "Try '$0 --help' for more information."
+    echo $border
 }
 
 error_many_args()
 {
+    echo $border
     echo "$0: many arguments for the script"
     echo "Try '$0 --help' for more information."  
+    echo $border
 }
 
 error_unrec_args()
 {
+    echo $border
     echo "$0: an unrecognized argument $1"
     echo "Try '$0 --help' for more information."  
+    echo $border
 }
 
 error_unrec_numb_function()
 {
+    echo $border
     echo "$0: an unrecognized numb function $func_var" 
+    echo $border
 }
 
 #-----------------------------
@@ -32,6 +40,7 @@ error_unrec_numb_function()
 
 help_info()
 {
+    echo $border
     echo "STORAGE DOCTOR."
     echo
     echo "options:"
@@ -42,10 +51,16 @@ help_info()
     echo "--simulate"
     echo "--expand-check"
     echo
+    echo $border
 }
 
 #-----------------------------
 # Audit functions
+
+
+
+#-----------------------------
+# show_disk_info functions
 
 show_disk_info()
 {
@@ -90,20 +105,41 @@ show_disk_info()
     done
 }
 
+
+#-----------------------------
+# show_top_10_hard_dir function
+
 show_top_10_hard_dir()
 {
-    echo "show_top_10_hard_dir"
+    clear
+    echo -n "Enter search path: "
+    read path
+    echo $border
+    sudo du $path -hxd 1 | sort -hr | head -n 10 # d - deep search, h - human size, x - skip dir on diff fs
+    echo $border
 }
+
+#-----------------------------
 
 search_big_files()
 {
-    echo "search_big_files"
+    clear
+    echo -n "Size find files (Mb): "
+    read size
+    echo $border
+    echo "Size = $size Mb"
+    sudo find / -xdev -type f -size +$(echo $size)M | sort -hr
+    echo $border
 }
 
 search_del_open_files()
 {
-    echo "search_del_open_files"
+    echo $border
+    sudo lsof +L1
+    echo $border
 }
+
+
 
 audit()
 {
