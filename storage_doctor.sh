@@ -216,7 +216,9 @@ fix()
 clean_tmp_old_files()
 {
     echo $border
-    echo "cleaning tmp/old files"
+    echo -n "Enter path for cleaning tmp/old files: "
+    read path
+    sudo find $path -type f -atime +10 -delete
     echo $border
 }
 
