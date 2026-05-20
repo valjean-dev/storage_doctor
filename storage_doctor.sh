@@ -247,6 +247,24 @@ handl_del_open_files()
     echo $border
 }
 #-----------------------------
+# Find functions
+#-----------------------------
+
+find()
+{
+    echo $border
+    echo -n "Select type (l, d, f): "
+    read type
+    echo -n "Select size (Mb): "
+    read size
+    echo -n "Select mtime: "
+    read mtime
+    echo -n "Select name: "
+    read name
+    echo $border
+    sudo find / -type $type -size +$(echo $size)M -mtime $mtime -name $name
+    echo $border  
+}
 
 #-----------------------------
 # Main block
@@ -268,7 +286,7 @@ else
                 fix
                 ;;
             --find)
-                echo "find info"
+                find
                 ;;
             --simulate)
                 echo "simulate info"
