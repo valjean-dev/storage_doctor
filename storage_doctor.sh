@@ -267,6 +267,102 @@ find()
 }
 
 #-----------------------------
+# Simulate functions
+#-----------------------------
+
+simulate()
+{
+    while true; do
+    echo "Simulate function: "
+    echo "1 - Work links"
+    echo "2 - Work inodes"
+    echo "3 - Exit"
+    echo -n "Select number of function: " # input value
+    read func_var # get value
+    clear
+    case $func_var in
+        1)
+            links
+            ;;
+        2)
+            inodes
+            ;;
+        3)
+            exit 0
+            ;;
+        *)
+            error_unrec_numb_function "$func_var"
+            ;;
+    esac
+    done
+}
+
+#-----------------------------
+
+links()
+{
+    clear
+    file_name="simulate_file"
+    touch $file_name
+    echo "'Information' > file"
+    echo "Information" > $file_name
+
+    echo $border
+    echo "Before deleting the $file_name"
+    echo $border
+    ln $file_name "$file_name.hardlink"
+    ln -s $file_name "$file_name.softlink"
+    ls -la "$file_name.hardlink" "$file_name.softlink" $file_name
+    
+    echo "cat hardlink: $(cat "$file_name.hardlink")"
+    echo "cat softlink: $(cat "$file_name.softlink")"
+    echo $border
+    sleep 5
+
+    echo "After deleting the $file_name"
+    echo $border
+    rm $file_name
+    ls -la "$file_name.hardlink" "$file_name.softlink" $file_name
+    echo "cat hardlink: $(cat "$file_name.hardlink")"
+    echo "cat softlink: $(cat "$file_name.softlink")"
+    echo $border
+    echo "Delete hardlink and softlink"
+    sleep 5
+
+    rm "$file_name.hardlink" "$file_name.softlink"
+    echo $border
+}
+
+#-----------------------------
+
+inodes()
+{
+    clear
+    echo $border
+    echo "Count inodes before"
+    df -i .
+    echo $border
+
+    echo "Create 10000 files.."
+    touch file_{1..10000}
+    sleep 5
+
+    echo $border
+    echo "Count inodes after"
+    df -i .
+
+    sleep 5
+    echo $border
+    echo "Delete files.."
+    rm file_{1..10000}
+
+    echo $border
+    echo "Count inodes after"
+    df -i .
+    echo $border
+}
+
+#-----------------------------
 # Main block
 
 if [[ $# -eq 0 ]]; then # check count args
@@ -289,7 +385,7 @@ else
                 find
                 ;;
             --simulate)
-                echo "simulate info"
+                simulate
                 ;;
             --expand-check)
                 echo "expand-check info"
