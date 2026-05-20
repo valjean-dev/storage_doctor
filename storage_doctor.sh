@@ -363,6 +363,28 @@ inodes()
 }
 
 #-----------------------------
+# Expand-check functions
+#-----------------------------
+
+expand_check()
+{
+    clear
+    echo $border
+    df -h
+    echo $border
+    echo -n "Enter your name device: "
+    read dev
+    sudo fdisk /dev/$dev
+    echo $border
+    echo -n "Enter your part name device: "
+    read part
+    sudo resize2fs /dev/$part
+    echo $border
+    df -h
+    echo $border
+}
+
+#-----------------------------
 # Main block
 
 if [[ $# -eq 0 ]]; then # check count args
@@ -388,7 +410,7 @@ else
                 simulate
                 ;;
             --expand-check)
-                echo "expand-check info"
+                expand_check
                 ;;
             *)
                 error_unrec_args "$1" # add value in function 
