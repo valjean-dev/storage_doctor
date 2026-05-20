@@ -370,6 +370,8 @@ expand_check()
 {
     clear
     echo $border
+    sudo fdisk -l
+    echo $border
     df -h
     echo $border
     echo -n "Enter your name device: "
