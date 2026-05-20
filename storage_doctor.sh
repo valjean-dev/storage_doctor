@@ -218,7 +218,7 @@ clean_tmp_old_files()
     echo $border
     echo -n "Enter path for cleaning tmp/old files: "
     read path
-    sudo find $path -type f -atime +10 -delete
+    sudo find $path -type f -atime +7 -exec rm -i {} \;
     echo $border
 }
 
@@ -227,10 +227,26 @@ clean_tmp_old_files()
 handl_del_open_files()
 {
     echo $border
-    echo "handling the deleted-open case"
+    sudo lsof +L1
+    echo -n "Select PID: "
+    read pid
+    sudo lsof +L1 | grep $pid
+    echo -n "Select FD: "
+    read fd
+    sudo lsof +L1 | grep $pid | grep $fd
+    echo -n "Cleaning deleted-open file?(yes/no): "
+    read response
+    if [[ $response == "yes" ]]; then
+        >'/proc/'$pid'/fd/'$fd
+        sudo lsof +L1 | grep $pid | grep $fd
+    elif [[ $response == "no" ]]; then
+        echo "no cleaning"
+    else
+        echo "Unrecognized value!"
+    fi
     echo $border
 }
-
+#-----------------------------
 
 #-----------------------------
 # Main block
